@@ -34,7 +34,7 @@ private static Logger logger = Logger.getLogger(SendEmailController.class);
 	public List<ContactUs> getAllContacts() {
 		logger.info("|===> sendEmail getAllContacts Ivoked <==|");
 		List<ContactUs> listofContacts = iContactUsService.getAllContacts();
-		logger.info("|===> sendEmail getAllContacts Ivoked <==|");
+		
 		return listofContacts;
 	}
 	
