@@ -22,7 +22,7 @@ public class ProductServiceImpl implements IProductService {
 	}
 
 	@Override
-	public void deleteProduct(String productName) {
+	public void deleteProductByName(String productName) {
 		Long productId = null;
 		Product product = productRepository.findByProductName(productName);
 		if (product != null) {
@@ -36,6 +36,12 @@ public class ProductServiceImpl implements IProductService {
 	@Override
 	public Product addProduct(Product product) {
 		return productRepository.save(product);
+	}
+
+	@Override
+	public void deleteProductById(Long productId) {
+		productRepository.deleteById(productId);
+
 	}
 
 }

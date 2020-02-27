@@ -6,6 +6,7 @@ import com.juteproduct.entity.Product;
 
 public interface IProductService {
 	List<Product> geProducts();
-	void deleteProduct(String productId);
+	void deleteProductByName(String productId);
+	void deleteProductById(Long productId);
 	Product addProduct(Product product);
 }
