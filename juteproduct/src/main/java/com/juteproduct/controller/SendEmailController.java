@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.juteproduct.entity.ContactUs;
 import com.juteproduct.service.IContactUsService;
-import com.juteproduct.service.IEmailService;
-import com.juteproduct.service.serviceimpl.EmailServiceImpl;
 
 @RestController
 @RequestMapping(value = "/sendemail")
