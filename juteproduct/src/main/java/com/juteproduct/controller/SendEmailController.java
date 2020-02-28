@@ -21,18 +21,17 @@ public class SendEmailController {
 private static Logger logger = Logger.getLogger(SendEmailController.class);
 	@Autowired
 	private IContactUsService iContactUsService;
-	
 
 	@PostMapping(value = "/email")
 	public String sendEmail(@RequestBody ContactUs contactDetails) {
-		logger.info("|===> sendEmail Method Ivoked <==|");
+		logger.info("Send Email Controller:: SendEmail ::");
 		iContactUsService.sendMail(contactDetails);		
 		return "Email Sent successfully";
 	}
 	
 	@GetMapping(value = "/getall")
 	public List<ContactUs> getAllContacts() {
-		logger.info("|===> sendEmail getAllContacts Ivoked <==|");
+		logger.info("::Send Email Controller:: GetAllEmailContacts :: <==|");
 		List<ContactUs> listofContacts = iContactUsService.getAllContacts();
 		return listofContacts;
 	}

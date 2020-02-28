@@ -29,10 +29,14 @@ public class ContactUsServiceImpl implements IContactUsService {
 
 	@Override
 	public ContactUs sendMail(ContactUs contactus) {
-		logger.info("|==> sendMail Repository Invoked <==| ");
+		logger.info(":: ContactutUs Service Implemenation :: Send Mail ::");
 		iEmailService.sendEmail(contactus);
-		logger.info("|==> Email Sent Successfully <==| ");
-		return iContactUsRepository.save(contactus);
+
+		ContactUs contactUs = iContactUsRepository.save(contactus);
+		if (contactUs != null) {
+			logger.info(":: ContactutUs Service Implemenation :: Customer details saved into DB Successfully ::");
+		}
+		return contactUs;
 	}
 
 	@Override
