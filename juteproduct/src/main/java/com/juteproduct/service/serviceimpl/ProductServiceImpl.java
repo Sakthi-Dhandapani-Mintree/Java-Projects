@@ -25,12 +25,14 @@ public class ProductServiceImpl implements IProductService {
 
 	@Override
 	public void deleteProductByName(String productName) {
-		Long productId = null;
-		Product product = productRepository.findByProductName(productName);
+		List<Product> product = productRepository.findByProductName(productName);
 		if (product != null) {
-			productId = product.getProductId();
-			productRepository.deleteById(productId);
-			System.out.println("Product has been deleted");
+			for (Product p : product) {
+				productRepository.deleteById(p.getProductId());
+				System.out.println("Product " + p.getProductName() + " has been deleted");
+			}
+		} else {
+			System.out.println("Product " + productName + " name not found !!!");
 		}
 
 	}
@@ -48,7 +50,8 @@ public class ProductServiceImpl implements IProductService {
 
 	@Override
 	public Product updateProduct(Product product, Long productId) throws ProductNotFoundException {
-		Product products = productRepository.findById(productId).orElseThrow(()-> new ProductNotFoundException("Product Not found for this ID"+productId));
+		Product products = productRepository.findById(productId)
+				.orElseThrow(() -> new ProductNotFoundException("Product Not found for this ID" + productId));
 		products.setProductName(product.getProductName());
 		products.setProductPrice(product.getProductPrice());
 		products.setProductSize(product.getProductSize());
@@ -56,5 +59,4 @@ public class ProductServiceImpl implements IProductService {
 		return productRepository.save(products);
 	}
 
-	
 }
