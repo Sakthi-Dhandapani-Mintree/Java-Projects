@@ -1,22 +1,48 @@
 package com.juteproduct.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
-@Table(name = "ContactUS")
+@Table(name = "contactus")
 public class ContactUs {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "contactid")
 	private Integer contactId;
+	@Column(name = "contactname")
 	private String contactName;
+	@Column(name = "contactemailaddress")
 	private String contactEmailAddress;
+	@Column(name = "contactphonenumber")
 	private String contactPhoneNumber;
-	private String contactMessageList;
+	@Column(name = "contactsubject")
+	private String contactSubject;
+	@Column(name = "contactmessages")
+	private String contactMessages;
+
+	public String getContactSubject() {
+		return contactSubject;
+	}
+
+	public void setContactSubject(String contactSubject) {
+		this.contactSubject = contactSubject;
+	}
+
+	public String getContactMessages() {
+		return contactMessages;
+	}
+
+	public void setContactMessages(String contactMessages) {
+		this.contactMessages = contactMessages;
+	}
 
 	public Integer getContactId() {
 		return contactId;
@@ -50,19 +76,11 @@ public class ContactUs {
 		this.contactPhoneNumber = contactPhoneNumber;
 	}
 
-	public String getContactMessageList() {
-		return contactMessageList;
-	}
-
-	public void setContactMessageList(String contactMessageList) {
-		this.contactMessageList = contactMessageList;
-	}
-
 	@Override
 	public String toString() {
 		return "ContactUs [contactId=" + contactId + ", contactName=" + contactName + ", contactEmailAddress="
 				+ contactEmailAddress + ", contactPhoneNumber=" + contactPhoneNumber + ", contactMessageList="
-				+ contactMessageList + "]";
+				+ contactMessages + "]";
 	}
 
 }

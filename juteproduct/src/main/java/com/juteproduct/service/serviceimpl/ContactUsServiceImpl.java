@@ -43,7 +43,7 @@ public class ContactUsServiceImpl implements IContactUsService {
 	public void deleteContacts(String phoneNumber) {
 		ContactUs contactUs = iContactUsRepository.findByContactPhoneNumber(phoneNumber);
 		if (contactUs != null) {
-			iContactUsRepository.deleteById(contactUs.getContactId());
+//			iContactUsRepository.deleteById(contactUs.getContactId());
 			System.out.println("Contact details has been deleted");
 		}
 

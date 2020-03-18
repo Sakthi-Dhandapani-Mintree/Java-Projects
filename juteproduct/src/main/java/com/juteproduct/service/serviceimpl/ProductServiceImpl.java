@@ -1,11 +1,13 @@
 package com.juteproduct.service.serviceimpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juteproduct.entity.Product;
+import com.juteproduct.exceptions.ProductNotFoundException;
 import com.juteproduct.repository.ProductRepository;
 import com.juteproduct.service.IProductService;
 
@@ -44,4 +46,15 @@ public class ProductServiceImpl implements IProductService {
 
 	}
 
+	@Override
+	public Product updateProduct(Product product, Long productId) throws ProductNotFoundException {
+		Product products = productRepository.findById(productId).orElseThrow(()-> new ProductNotFoundException("Product Not found for this ID"+productId));
+		products.setProductName(product.getProductName());
+		products.setProductPrice(product.getProductPrice());
+		products.setProductSize(product.getProductSize());
+		products.setProductType(product.getProductType());
+		return productRepository.save(products);
+	}
+
+	
 }

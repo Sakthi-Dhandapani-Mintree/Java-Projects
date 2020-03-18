@@ -1,20 +1,28 @@
 package com.juteproduct.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.lang.NonNull;
+
 @Entity
 @Table(name = "Product")
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "productid")
 	private Long productId;
+	@Column(name = "productname")
 	private String productName;
+	@Column(name = "productprice")
 	private String productPrice;
+	@Column(name = "productsize")
 	private String productSize;
+	@Column(name = "producttype")
 	private String productType;
 
 	public Long getProductId() {
