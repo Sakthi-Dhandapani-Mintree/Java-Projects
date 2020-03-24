@@ -33,7 +33,7 @@ server:
  amazon:
   access-key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   secret-key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-  region: us-east-2
+  region: Testing
   s3:
    endpointUrl: XXXXXXXXXXXXXXXXXXXXXXXXXX
    bucketName: ##############################
