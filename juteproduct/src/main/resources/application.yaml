@@ -31,10 +31,10 @@ server:
     protocol: smtp
     test-connection: false     
  amazon:
-  access-key: AKIA5FJEC7NYXU256MU6
-  secret-key: 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
+  access-key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  secret-key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   region: us-east-2
   s3:
-   endpointUrl: https://s3.us-east-2.amazonaws.com
-   bucketName: aamc-applicant-documents
+   endpointUrl: XXXXXXXXXXXXXXXXXXXXXXXXXX
+   bucketName: ##############################
 ---
