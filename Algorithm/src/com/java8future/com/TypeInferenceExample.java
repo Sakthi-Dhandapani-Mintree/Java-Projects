@@ -2,7 +2,6 @@ package com.java8future.com;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @FunctionalInterface
 interface StringLength{

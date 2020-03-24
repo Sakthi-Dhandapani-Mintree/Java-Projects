@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "freequote")
@@ -26,10 +29,25 @@ public class FreeQuote {
 	private String freequoteProduct;
 	@Column(name = "freequotequantity")
 	private int freequoteQuantity;
-	@Column(name = "freequoteimages")
-	private Blob freequoteImages;
+	@Lob
+	@Column(name = "freequoteimages")	
+	private byte [] freequoteImages;
 	@Column(name = "freequotemessage")
 	private String freequoteMessage;
+public FreeQuote() {
+	
+}
+	public FreeQuote(Integer freequoteid, String freequoteName, String freequoteEmail, String freequotePhone,
+			String freequoteProduct, int freequoteQuantity, byte[] freequoteImages, String freequoteMessage) {
+		this.freequoteid = freequoteid;
+		this.freequoteName = freequoteName;
+		this.freequoteEmail = freequoteEmail;
+		this.freequotePhone = freequotePhone;
+		this.freequoteProduct = freequoteProduct;
+		this.freequoteQuantity = freequoteQuantity;
+		this.freequoteImages = freequoteImages;
+		this.freequoteMessage = freequoteMessage;
+	}
 
 	public Integer getFreequoteid() {
 		return freequoteid;
@@ -79,11 +97,11 @@ public class FreeQuote {
 		this.freequoteQuantity = freequoteQuantity;
 	}
 
-	public Blob getFreequoteImages() {
+	public byte[] getFreequoteImages() {
 		return freequoteImages;
 	}
 
-	public void setFreequoteImages(Blob freequoteImages) {
+	public void setFreequoteImages(byte[] freequoteImages) {
 		this.freequoteImages = freequoteImages;
 	}
 

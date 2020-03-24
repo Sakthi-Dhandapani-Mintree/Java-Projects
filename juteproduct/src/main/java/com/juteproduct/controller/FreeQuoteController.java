@@ -1,19 +1,29 @@
 package com.juteproduct.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+
+import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.juteproduct.entity.FreeQuote;
+import com.juteproduct.response.DocumentResponseFromS3;
+import com.juteproduct.service.IDocumentAwsService;
 import com.juteproduct.service.IFreeQuoteService;
 
 @RestController
@@ -24,6 +34,8 @@ public class FreeQuoteController {
 
 	@Autowired
 	private IFreeQuoteService freeQuoteService;
+	@Autowired
+	private IDocumentAwsService idocumentAwsService;
 
 	@GetMapping(value = "/getallquotes")
 	public List<FreeQuote> getAllFreeQutes() {
@@ -32,11 +44,29 @@ public class FreeQuoteController {
 		return freeQuoteService.getAllFreeQuote();
 	}
 
-	@PostMapping(value = "/postquery")
-	public ResponseEntity<FreeQuote> postAllFreeQuotas(@RequestBody FreeQuote freeQuote) {
-		System.out.println(freeQuote.toString());
-		FreeQuote fq = freeQuoteService.addFreeQuotes(freeQuote);
-		return new ResponseEntity<FreeQuote>(fq, HttpStatus.OK);
+	@PostMapping(value = "/upload")
+	public ResponseEntity<FreeQuote> postAllFreeQuotas(@RequestParam("file") MultipartFile juteDocument,
+			@RequestParam String juteDocId) throws IOException {
+		freeQuoteService.uploadFile(juteDocument);
+		return new ResponseEntity<FreeQuote>(HttpStatus.OK);
+
+	}
+
+	@PostMapping(value = "/uploads")
+	public ResponseEntity<FreeQuote> uploadDocument(@RequestParam("file") MultipartFile juteDocument,
+			@RequestParam String juteDocId) throws IOException {
+		Path targetLocation = Paths
+				.get("D:\\logs\\New folder1\\" + 1234 + File.separator + juteDocument.getOriginalFilename());
+		idocumentAwsService.uploadFile(targetLocation, "143", Long.valueOf(1335));
+		return new ResponseEntity<FreeQuote>(HttpStatus.OK);
+
+	}
+
+	@DeleteMapping(value = "/delete")
+	public ResponseEntity<FreeQuote> uploadDocument() {
+		String key = "12/69741379@N08.jpg";
+		idocumentAwsService.deleteDocumentFromS3Bucket(key);
+		return new ResponseEntity<FreeQuote>(HttpStatus.OK);
 
 	}
 

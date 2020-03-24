@@ -14,6 +14,8 @@ server:
     password: root
   jpa:
     show-sql: true
+    ddl-auto: update
+    hibernate.use-new-id-generator-mappings: false
   mail:
     default-encoding: UTF-8
     host: smtp.gmail.com
@@ -27,6 +29,12 @@ server:
           starttls:
             enable: true
     protocol: smtp
-    test-connection: false 
-  
+    test-connection: false     
+ amazon:
+  access-key: AKIA5FJEC7NYXU256MU6
+  secret-key: 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
+  region: us-east-2
+  s3:
+   endpointUrl: https://s3.us-east-2.amazonaws.com
+   bucketName: aamc-applicant-documents
 ---
