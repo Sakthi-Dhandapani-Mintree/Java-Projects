@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: back-end
+  namespace: sakthi
+  labels:
+    app: back-end
+  
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: back-end
+    spec:
+      containers:
+      - name: web
+        image: gcr.io/$PROJECT_ID/hello-service:"jute-service_"$BUILD_ID
+        ports:
+        - containerPort: 8101
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8101
