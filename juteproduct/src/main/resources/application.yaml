@@ -21,7 +21,7 @@ server:
     default-encoding: UTF-8
     host: smtp.gmail.com
     username: sakthi.dhandapani@gmail.com
-    password: 2631558-pass
+    password: XXXX-p***s
     port: 587
     properties:
       mail:
