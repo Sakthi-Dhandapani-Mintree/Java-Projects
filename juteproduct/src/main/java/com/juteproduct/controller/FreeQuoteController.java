@@ -6,8 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juteproduct.entity.FreeQuote;
-import com.juteproduct.response.DocumentResponseFromS3;
-import com.juteproduct.service.IDocumentAwsService;
 import com.juteproduct.service.IFreeQuoteService;
 
 @RestController
@@ -34,8 +30,6 @@ public class FreeQuoteController {
 
 	@Autowired
 	private IFreeQuoteService freeQuoteService;
-	@Autowired
-	private IDocumentAwsService idocumentAwsService;
 
 	@GetMapping(value = "/getallquotes")
 	public List<FreeQuote> getAllFreeQutes() {
@@ -57,7 +51,6 @@ public class FreeQuoteController {
 			@RequestParam String juteDocId) throws IOException {
 		Path targetLocation = Paths
 				.get("D:\\logs\\New folder1\\" + 1234 + File.separator + juteDocument.getOriginalFilename());
-		idocumentAwsService.uploadFile(targetLocation, "143", Long.valueOf(1335));
 		return new ResponseEntity<FreeQuote>(HttpStatus.OK);
 
 	}
@@ -65,7 +58,6 @@ public class FreeQuoteController {
 	@DeleteMapping(value = "/delete")
 	public ResponseEntity<FreeQuote> uploadDocument() {
 		String key = "12/69741379@N08.jpg";
-		idocumentAwsService.deleteDocumentFromS3Bucket(key);
 		return new ResponseEntity<FreeQuote>(HttpStatus.OK);
 
 	}

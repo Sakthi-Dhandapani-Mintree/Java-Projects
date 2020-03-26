@@ -2,10 +2,14 @@ package com.juteproduct.controller;
 
 import java.util.List;
 
+import javax.mail.Header;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.juteproduct.entity.Product;
 import com.juteproduct.exceptions.ProductNotFoundException;
@@ -33,9 +38,13 @@ public class ProductController {
 	}
 
 	@PostMapping(value = "/addproduct")
-	public Product addProdcut(@RequestBody Product product) {
+	public ResponseEntity<?> addProdcut(@RequestBody Product product) {
 		logger.debug("|==>" + " " + "addProdcut --" + " " + product.toString() + "<==|");
-		return iProductService.addProduct(product);
+		Product products= iProductService.addProduct(product);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/addproduct")
+				.buildAndExpand(products.getProductId()).toUri());
+		return new ResponseEntity<>(products,httpHeaders,HttpStatus.CREATED);
 
 	}
 
