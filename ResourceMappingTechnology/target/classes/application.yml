@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: jute-service
+  profiles:
+    active: dev
+server:
+  port: 8101
+---
+ spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://35.185.136.107:3306/jute
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    ddl-auto: create
+    hibernate.use-new-id-generator-mappings: false
