@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: gcr.io/$PROJECT_ID/hello-service:jute-service_${BUILD_ID}
+        image: gcr.io/$PROJECT_ID/hello-service:jute-service_$BUILD_NUMBER
         ports:
         - containerPort: 8101
         livenessProbe:
