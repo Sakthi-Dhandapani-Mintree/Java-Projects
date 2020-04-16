@@ -1,6 +1,0 @@
-com\resoursetechmappings\repo\ResourceServiceRepo.class
-com\resoursetechmappings\serviceimpl\ResourceBeanServiceImpl.class
-com\resoursetechmappings\controller\ResourseMappingController.class
-com\resoursetechmappings\entity\ResourceBean.class
-com\resoursetechmappings\ResourceMappingTechnologyApplication.class
-com\resoursetechmappings\service\ResourceBeanService.class
