@@ -9,10 +9,10 @@ import com.mindtreeyorbitsb201.shoppingcart.entity.Cart;
 import com.mindtreeyorbitsb201.shoppingcart.entity.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
-	Product findByProductId(Integer productId);
-
-	List<Product> findByProductIdAndCart(Integer cartId,Cart cart);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+	Product findByProductId(Long productId);
+	List<Product> findByProductIdAndCart(Long cartId,long productId);
+	List<Product> findByCart(Cart cartId);
 
 	Product findByProductName(String productName);
 }

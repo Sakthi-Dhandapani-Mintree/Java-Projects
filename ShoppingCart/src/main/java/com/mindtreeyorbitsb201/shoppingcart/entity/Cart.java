@@ -1,9 +1,8 @@
 package com.mindtreeyorbitsb201.shoppingcart.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,32 +21,32 @@ public class Cart implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer cartId;
+	private long cartId;
 	private int quantity;
 	private double totalAmount;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "userId")
 	private User user;
-	
+
 	@OneToMany
-	private Collection<Product> product;
-	
-		/**
+	private List<Product> product;
+
+	/**
 	 * @return the product
 	 */
-	public Collection<Product> getProduct() {
+	public List<Product> getProduct() {
 		return product;
 	}
 
 	/**
 	 * @param product the product to set
 	 */
-	public void setProduct(Collection<Product> product) {
+	public void setProduct(List<Product> product) {
 		this.product = product;
 	}
 
-		/**
+	/**
 	 * @return the user
 	 */
 	public User getUser() {
@@ -61,11 +60,11 @@ public class Cart implements Serializable {
 		this.user = user;
 	}
 
-	public Integer getCartId() {
+	public long getCartId() {
 		return cartId;
 	}
 
-	public void setCartId(Integer cartId) {
+	public void setCartId(long cartId) {
 		this.cartId = cartId;
 	}
 

@@ -12,8 +12,10 @@ import javax.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.mindtreeyorbitsb201.shoppingcart.entity.Book;
 import com.mindtreeyorbitsb201.shoppingcart.entity.Cart;
 import com.mindtreeyorbitsb201.shoppingcart.entity.Product;
 import com.mindtreeyorbitsb201.shoppingcart.entity.User;
@@ -39,7 +41,7 @@ public class CartServiceImpl implements CartService {
 	EntityManagerFactory emf;
 
 	@Override
-	public Cart addProducts(Cart cart, Integer userId, Integer productId) {
+	public Cart addProducts(Cart cart, Long userId, Long productId) {
 		log.info("-->Add Products with {} number of times into {}" + productId + " " + userId);
 		try {
 			User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("user Not Found"));
@@ -99,28 +101,30 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public void removeProducts(Integer cartId, Integer productId) {
-		Product p = productRepository.findByProductId(productId);
-		productRepository.deleteById(p.getProductId());
+	public void removeProducts(Long cartId, Long productId) {
+		productRepository.deleteById(productId);
 
 	}
 
 	@Override
-	public Cart viewProducts(Integer cartId) {
-		Cart crt = cartRepository.findByCartId(cartId);
-		crt.setProduct(collectDataFromNameQuery(cartId));
-		return crt;
+	public void removeAllProducts(Long cartId) {
+		productRepository.deleteAll();
+		try {
+			Cart cart = cartRepository.findById(cartId)
+					.orElseThrow(() -> new CartIdNotFoundException("Cart is found in the db !!!"));
+			cartRepository.delete(cart);
+		} catch (CartIdNotFoundException cart) {
+			System.out.println(cart.getMessage());
+		}
+
 	}
 
-	private Collection<Product> collectDataFromNameQuery(Integer cartId) {
-		EntityManager em = emf.createEntityManager();
-		Query query = em
-				.createNamedQuery("SELECT C.QUANTITY, PRODUCT_ID ,PRODUCT_CATEGORY,PRODUCT_NAME FROM PRODUCT P\r\n"
-						+ "JOIN CART  AS C ON P.CART_ID =" + cartId);
-		@SuppressWarnings("unchecked")
-		List<Product> product = query.getResultList();
-		em.clear();
-		return product;
+	@Override
+	public Cart viewProducts(Long cartId) {
+		Cart crt = cartRepository.findByCartId(cartId);
+		List<Product> pd = productRepository.findByCart(crt);
+		crt.setProduct(pd);
+		return crt;
 	}
 
 }

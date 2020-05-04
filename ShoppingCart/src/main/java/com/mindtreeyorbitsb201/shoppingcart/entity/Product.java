@@ -11,9 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "product")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Product implements Serializable {
 	/**
 	 * 
@@ -21,12 +24,13 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
-	private Integer productId;
+	private long productId;
 	private String productName;
 	private String productCategory;
 	private float productPrice;
 	@ManyToOne
 	@JoinColumn(name="cartId")
+	@JsonIgnore
 	private Cart cart;
 	
 	/**
@@ -67,11 +71,11 @@ public class Product implements Serializable {
 		this.productCategory = productCategory;
 	}
 
-	public Integer getProductId() {
+	public long getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(long productId) {
 		this.productId = productId;
 	}
 
@@ -89,6 +93,15 @@ public class Product implements Serializable {
 
 	public void setProductPrice(float productPrice) {
 		this.productPrice = productPrice;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice
+				+ ", cart=" + cart + "]";
 	}
 
 }
