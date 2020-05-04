@@ -31,12 +31,12 @@ public class ProductRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		
 		List<Product> listOfProducts = new ArrayList<Product>();
-		listOfProducts.add(new Book(1, "C++", "Book", 200f, "Programming", "Bala", "Mindtree"));
-		listOfProducts.add(new Book(2, "Java", "Book", 200f, "Programming", "Bala", "Born"));
-		listOfProducts.add(new Book(3, "Html", "Book", 200f, "Programming", "Bala", "fidility"));
-		listOfProducts.add(new Apparal(4, "otto", "Apparal", 200f, "Shirt", "Phothis", "CTS"));
-		listOfProducts.add(new Apparal(5, "Crocodile", "Apparal", 200f, "Chudi", "Saravana", "TCS"));
-		listOfProducts.add(new Apparal(6, "johnpeter", "Apparal", 200f, "frog", "Chennai", "VTS"));
+		listOfProducts.add(new Book(1, "c++", "book", 200f, "programming", "bala", "Mindtree"));
+		listOfProducts.add(new Book(2, "java", "book", 200f, "programming", "bala", "Born"));
+		listOfProducts.add(new Book(3, "java", "book", 200f, "programming", "dexy", "fidility"));
+		listOfProducts.add(new Apparal(4, "otto", "apparal", 200f, "shirt", "phothis", "CTS"));
+		listOfProducts.add(new Apparal(5, "crocodile", "apparal", 200f, "chudi", "Saravana", "TCS"));
+		listOfProducts.add(new Apparal(6, "johnpeter", "apparal", 200f, "frog", "Chennai", "VTS"));
 		for (Product product : listOfProducts) {
 			productRepository.save(product);
 		}

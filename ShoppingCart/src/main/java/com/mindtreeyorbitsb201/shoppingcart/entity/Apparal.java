@@ -16,10 +16,12 @@ public class Apparal extends Product {
 	private String apparalType;
 	private String apparalBrand;
 	private String apparalDesign;
-	public Apparal() {}
 
-	public Apparal(int productId, String productName,String productCategory, float productPrice, String apparalType, String apparalBrand,
-			String apparalDesign) {
+	public Apparal() {
+	}
+
+	public Apparal(int productId, String productName, String productCategory, float productPrice, String apparalType,
+			String apparalBrand, String apparalDesign) {
 		super(productId, productName, productCategory, productPrice);
 		this.apparalType = apparalType;
 		this.apparalBrand = apparalBrand;

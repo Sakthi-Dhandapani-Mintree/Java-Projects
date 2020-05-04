@@ -1,21 +1,15 @@
 package com.mindtreeyorbitsb201.shoppingcart.service.serviceimpl;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import com.mindtreeyorbitsb201.shoppingcart.entity.Book;
 import com.mindtreeyorbitsb201.shoppingcart.entity.Cart;
 import com.mindtreeyorbitsb201.shoppingcart.entity.Product;
 import com.mindtreeyorbitsb201.shoppingcart.entity.User;
@@ -27,8 +21,10 @@ import com.mindtreeyorbitsb201.shoppingcart.repository.UserRepository;
 import com.mindtreeyorbitsb201.shoppingcart.service.CartService;
 
 @Service
+@Transactional
 public class CartServiceImpl implements CartService {
-	private static Logger log = LogManager.getLogger(CartServiceImpl.class);
+	private static Logger logger = LogManager.getLogger(CartServiceImpl.class);
+
 	@Autowired
 	private ProductRepository productRepository;
 	@Autowired
@@ -37,52 +33,50 @@ public class CartServiceImpl implements CartService {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	EntityManagerFactory emf;
-
 	@Override
-	public Cart addProducts(Cart cart, Long userId, Long productId) {
-		log.info("-->Add Products with {} number of times into {}" + productId + " " + userId);
-		try {
-			User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("user Not Found"));
-			cart.setUser(user);
-		} catch (UserNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
+	public Cart addProducts(Cart cart, Integer userId, Integer productId) {
 
+		logger.info("|| CartServiceImpl  entry: addProducts to user " + userId + " with product id is : " + productId);
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException("User not found in DB with Given userId :" + userId));
+		cart.setUser(user);
 		Product products = productRepository.findByProductId(productId);
+
 		Optional<Cart> carts = cartRepository.findById(cart.getCartId());
 		if (!carts.isPresent()) {
+
 			double totalAmount = products.getProductPrice() * cart.getQuantity();
 			cart.setCartId(cart.getCartId());
 			cart.setQuantity(cart.getQuantity());
 			cart.setTotalAmount(totalAmount);
 			products.setCart(cart);
-
 			cartRepository.save(cart);
 		} else {
 			double totalAmount = carts.get().getTotalAmount() + (products.getProductPrice() * cart.getQuantity());
-			cart.setQuantity(carts.get().getQuantity() + cart.getQuantity());
+			cart.setQuantity(carts.get().getQuantity() + getQuantity(carts.get()));
 			cart.setCartId(cart.getCartId());
 			cart.setTotalAmount(totalAmount);
 			products.setCart(cart);
 			cartRepository.save(cart);
 		}
+		logger.info("|| CartServiceImpl end: added products to the cart ");
 
 		return cart;
 
 	}
 
 	public int getQuantity(Cart cart) {
+		logger.error("|| getQuantity : getQuantity to update the existing count " + cart.getQuantity());
 		int totalQuantity = 0;
 		Optional<Cart> carts = cartRepository.findById(cart.getCartId());
 		totalQuantity += carts.get().getQuantity();
+		logger.error("|| getQuantity : getQuantity updated with existing count " + totalQuantity);
 		return totalQuantity;
 	}
 
 	@Override
 	public Cart updateProducts(Cart crt) {
-		log.info("Updating the Products from the Cart --->" + crt.getCartId());
+		logger.info("Updating the Products from the Cart --->" + crt.getCartId());
 		try {
 			Cart cart = cartRepository.findById(crt.getCartId())
 					.orElseThrow(() -> new CartIdNotFoundException("Cart Id Not Found in the Data base"));
@@ -101,30 +95,37 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public void removeProducts(Long cartId, Long productId) {
+	public void removeProducts(Integer cartId, Integer productId) {
+		logger.info("|| CartServiceImpl entry : removeProducts from the cartId " + productId);
 		productRepository.deleteById(productId);
+		logger.info("|| CartServiceImpl end : removeProducts from the cartId ");
 
 	}
 
 	@Override
-	public void removeAllProducts(Long cartId) {
+	public void removeAllProducts(Integer cartId) {
+		logger.info("|| CartServiceImpl entry : removeAllProducts based on cartId " + cartId);
 		productRepository.deleteAll();
-		try {
-			Cart cart = cartRepository.findById(cartId)
-					.orElseThrow(() -> new CartIdNotFoundException("Cart is found in the db !!!"));
-			cartRepository.delete(cart);
-		} catch (CartIdNotFoundException cart) {
-			System.out.println(cart.getMessage());
-		}
+		logger.info("|| CartServiceImpl entry : removeAllProducts based on cartId " + cartId);
+		Cart cart = cartRepository.findById(cartId).orElseThrow(
+				() -> new CartIdNotFoundException("Cart is not found in the DB with given cartId : " + cartId));
+		cartRepository.delete(cart);
+		logger.info("|| CartServiceImpl end : Removed products as well as CartId  " + cartId);
 
 	}
 
 	@Override
-	public Cart viewProducts(Long cartId) {
-		Cart crt = cartRepository.findByCartId(cartId);
-		List<Product> pd = productRepository.findByCart(crt);
-		crt.setProduct(pd);
-		return crt;
+	public Cart viewProducts(Integer cartId) {
+		logger.info("|| CartServiceImpl  entry: viewProducts base on the cart id " + cartId);
+		Cart cart = cartRepository.findByCartId(cartId);
+		if (cart == null) {
+			logger.error("|| CartServiceImpl  : viewProducts not find the " + cartId);
+			throw new CartIdNotFoundException("Entered Cart Id : " + cartId + " not found in the DB");
+		}
+		List<Product> pd = productRepository.findByCart(cart);
+		cart.setProduct(pd);
+		logger.info("|| CartServiceImpl  end: displayed all the product to cart");
+		return cart;
 	}
 
 }

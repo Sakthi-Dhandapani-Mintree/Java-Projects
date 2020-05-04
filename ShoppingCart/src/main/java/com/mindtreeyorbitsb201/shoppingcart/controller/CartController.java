@@ -1,7 +1,7 @@
 package com.mindtreeyorbitsb201.shoppingcart.controller;
 
-import java.util.List;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,50 +15,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mindtreeyorbitsb201.shoppingcart.entity.Cart;
-import com.mindtreeyorbitsb201.shoppingcart.entity.Product;
 import com.mindtreeyorbitsb201.shoppingcart.service.CartService;
 
 @RestController
 @RequestMapping(value = "/api/v1/cart")
-public class CartControllerCopy {
-
+public class CartController {
+	private static Logger logger = LogManager.getLogger(CartController.class);
 	@Autowired
 	private CartService cartService;
 
 	@PostMapping(value = "/addproduct/{userId}/{productId}")
-	public ResponseEntity<?> addProduct(@RequestBody Cart cart, @PathVariable Long productId,
-			@PathVariable Long userId) {
+	public ResponseEntity<?> addProduct(@RequestBody Cart cart, @PathVariable Integer userId,
+			@PathVariable Integer productId) {
+		logger.info(
+				"|| Cart Controller Begin : AddProduct method : " + cart.toString() + " " + userId + " " + productId);
 		Cart carts = cartService.addProducts(cart, userId, productId);
+		logger.info("|| Cart Controller End : AddProduct Method");
 		return new ResponseEntity<Cart>(carts, HttpStatus.OK);
 	}
 
-	/**
-	 * Working fine
-	 * 
-	 * @param cartId
-	 * @return
-	 */
 	@GetMapping(value = "/viewcart/{cartId}")
-	public Cart viewCart(@PathVariable Long cartId) {
+	public Cart viewCart(@PathVariable Integer cartId) {
+		logger.info("|| Cart Controller entry : viewCart method : " + cartId);
 		Cart cart = cartService.viewProducts(cartId);
+		logger.info("|| Cart Controller End : viewCart Method");
 		return cart;
 	}
 
 	@DeleteMapping(value = "/delete/{cartId}/products/{productId}")
-	public void deleteProductFromCart(@PathVariable Long cartId, @PathVariable Long productId) {
+	public void deleteProductFromCart(@PathVariable Integer cartId, @PathVariable Integer productId) {
+		logger.info("|| Cart Controller entry : deleteProductFromCart method : " + productId);
 		cartService.removeProducts(cartId, productId);
+		logger.info("|| Cart Controller end : deleteProductFromCart method : ");
 
 	}
 
 	@DeleteMapping(value = "/deleteall/{cartId}")
-	public void deleteAllProductsFromCart(@PathVariable Long cartId) {
+	public void deleteAllProductsFromCart(@PathVariable Integer cartId) {
+		logger.info("|| Cart Controller entry : deleteAllProductsFromCart method : " + cartId);
 		cartService.removeAllProducts(cartId);
-
+		logger.info("|| Cart Controller entry : deleteAllProductsFromCart method : ");
 	}
 
 	@PutMapping(value = "/updatecart")
 	public Cart updateCart(@RequestBody Cart cart) {
+		logger.info("|| Cart Controller entry : updateCart method : " + cart.toString());
 		cartService.updateProducts(cart);
+		logger.info("|| Cart Controller entry : updateCart method : " + cart.toString());
 		return null;
 
 	}

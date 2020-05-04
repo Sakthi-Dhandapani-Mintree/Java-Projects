@@ -8,9 +8,7 @@ import javax.persistence.Table;
 @Table(name = "book")
 @PrimaryKeyJoinColumn(referencedColumnName = "productId")
 public class Book extends Product {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private String bookGenre;
@@ -20,8 +18,8 @@ public class Book extends Product {
 	public Book() {
 	}
 
-	public Book(int productId, String productName,String productCategory, float productPrice, String bookGenre, String bookAuthour,
-			String bookPublications) {
+	public Book(int productId, String productName, String productCategory, float productPrice, String bookGenre,
+			String bookAuthour, String bookPublications) {
 		super(productId, productName, productCategory, productPrice);
 		this.bookGenre = bookGenre;
 		this.bookAuthour = bookAuthour;

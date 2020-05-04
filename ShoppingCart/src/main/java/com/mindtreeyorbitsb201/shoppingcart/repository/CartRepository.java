@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.mindtreeyorbitsb201.shoppingcart.entity.Cart;
 
 @Repository
-public interface CartRepository extends JpaRepository<Cart, Long> {
-	Cart findByCartId(Long cartId);
+public interface CartRepository extends JpaRepository<Cart, Integer> {
+	Cart findByCartId(Integer cartId);
 }

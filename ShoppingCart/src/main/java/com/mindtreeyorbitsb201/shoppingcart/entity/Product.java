@@ -24,15 +24,26 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
-	private long productId;
+	private Integer productId;
 	private String productName;
 	private String productCategory;
 	private float productPrice;
+
 	@ManyToOne
-	@JoinColumn(name="cartId")
+	@JoinColumn(name = "cartId")
 	@JsonIgnore
 	private Cart cart;
-	
+
+	public Product() {
+	}
+
+	public Product(Integer productId, String productName, String productCategory, float productPrice) {
+		this.productId = productId;
+		this.productName = productName;
+		this.productCategory = productCategory;
+		this.productPrice = productPrice;
+	}
+
 	/**
 	 * @return the cart
 	 */
@@ -47,16 +58,7 @@ public class Product implements Serializable {
 		this.cart = cart;
 	}
 
-	public Product() {
-	}
-
-	public Product(Integer productId, String productName, String productCategory, float productPrice) {
-		this.productId = productId;
-		this.productName = productName;
-		this.productCategory = productCategory;
-		this.productPrice = productPrice;
-	}
-
+	 
 	/**
 	 * @return the productCategory
 	 */
@@ -75,7 +77,7 @@ public class Product implements Serializable {
 		return productId;
 	}
 
-	public void setProductId(long productId) {
+	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
 
@@ -95,7 +97,9 @@ public class Product implements Serializable {
 		this.productPrice = productPrice;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
