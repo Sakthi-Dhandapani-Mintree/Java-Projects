@@ -2,7 +2,9 @@ package com.mindtreeyorbitsb201.shoppingcart.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -11,8 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "product")
@@ -31,6 +35,7 @@ public class Product implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "cartId")
+	@OnDelete(action=OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private Cart cart;
 
@@ -58,7 +63,6 @@ public class Product implements Serializable {
 		this.cart = cart;
 	}
 
-	 
 	/**
 	 * @return the productCategory
 	 */
@@ -73,7 +77,7 @@ public class Product implements Serializable {
 		this.productCategory = productCategory;
 	}
 
-	public long getProductId() {
+	public Integer getProductId() {
 		return productId;
 	}
 
@@ -97,11 +101,6 @@ public class Product implements Serializable {
 		this.productPrice = productPrice;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice

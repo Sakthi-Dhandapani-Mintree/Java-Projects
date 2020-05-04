@@ -14,6 +14,7 @@ import com.mindtreeyorbitsb201.shoppingcart.entity.Cart;
 import com.mindtreeyorbitsb201.shoppingcart.entity.Product;
 import com.mindtreeyorbitsb201.shoppingcart.entity.User;
 import com.mindtreeyorbitsb201.shoppingcart.exception.CartIdNotFoundException;
+import com.mindtreeyorbitsb201.shoppingcart.exception.ProductNotFoundException;
 import com.mindtreeyorbitsb201.shoppingcart.exception.UserNotFoundException;
 import com.mindtreeyorbitsb201.shoppingcart.repository.CartRepository;
 import com.mindtreeyorbitsb201.shoppingcart.repository.ProductRepository;
@@ -53,7 +54,7 @@ public class CartServiceImpl implements CartService {
 			cartRepository.save(cart);
 		} else {
 			double totalAmount = carts.get().getTotalAmount() + (products.getProductPrice() * cart.getQuantity());
-			cart.setQuantity(carts.get().getQuantity() + getQuantity(carts.get()));
+			cart.setQuantity(carts.get().getQuantity() + cart.getQuantity());
 			cart.setCartId(cart.getCartId());
 			cart.setTotalAmount(totalAmount);
 			products.setCart(cart);
@@ -69,7 +70,7 @@ public class CartServiceImpl implements CartService {
 		logger.error("|| getQuantity : getQuantity to update the existing count " + cart.getQuantity());
 		int totalQuantity = 0;
 		Optional<Cart> carts = cartRepository.findById(cart.getCartId());
-		totalQuantity += carts.get().getQuantity();
+		totalQuantity = carts.get().getQuantity() + cart.getQuantity();
 		logger.error("|| getQuantity : getQuantity updated with existing count " + totalQuantity);
 		return totalQuantity;
 	}
@@ -97,7 +98,9 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public void removeProducts(Integer cartId, Integer productId) {
 		logger.info("|| CartServiceImpl entry : removeProducts from the cartId " + productId);
+		Product product = productRepository.findByProductId(productId);
 		productRepository.deleteById(productId);
+		
 		logger.info("|| CartServiceImpl end : removeProducts from the cartId ");
 
 	}
