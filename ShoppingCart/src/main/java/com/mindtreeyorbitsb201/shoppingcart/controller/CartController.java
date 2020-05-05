@@ -42,7 +42,7 @@ public class CartController {
 		return cart;
 	}
 
-	@PutMapping(value = "/updatecart}")
+	@PutMapping(value = "/updatecart")
 	public Cart updateCart(@RequestBody Cart cart) {
 		logger.info("|| Cart Controller entry : updateCart method : " + cart.toString());
 		Cart updatedCart = cartService.updateProducts(cart);
