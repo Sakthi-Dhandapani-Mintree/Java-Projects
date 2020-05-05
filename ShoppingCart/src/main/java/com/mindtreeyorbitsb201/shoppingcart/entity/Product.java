@@ -11,6 +11,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
@@ -33,12 +34,6 @@ public class Product implements Serializable {
 	private String productCategory;
 	private float productPrice;
 
-	@ManyToOne
-	@JoinColumn(name = "cartId")
-	@OnDelete(action=OnDeleteAction.CASCADE)
-	@JsonIgnore
-	private Cart cart;
-
 	public Product() {
 	}
 
@@ -49,19 +44,6 @@ public class Product implements Serializable {
 		this.productPrice = productPrice;
 	}
 
-	/**
-	 * @return the cart
-	 */
-	public Cart getCart() {
-		return cart;
-	}
-
-	/**
-	 * @param cart the cart to set
-	 */
-	public void setCart(Cart cart) {
-		this.cart = cart;
-	}
 
 	/**
 	 * @return the productCategory
@@ -101,10 +83,37 @@ public class Product implements Serializable {
 		this.productPrice = productPrice;
 	}
 
+ 
 	@Override
-	public String toString() {
-		return "Product [productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice
-				+ ", cart=" + cart + "]";
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
+		result = prime * result + ((productName == null) ? 0 : productName.hashCode());
+		return result;
 	}
+ 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (productId == null) {
+			if (other.productId != null)
+				return false;
+		} else if (!productId.equals(other.productId))
+			return false;
+		if (productName == null) {
+			if (other.productName != null)
+				return false;
+		} else if (!productName.equals(other.productName))
+			return false;
+		return true;
+	}
+
 
 }

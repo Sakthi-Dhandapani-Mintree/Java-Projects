@@ -42,6 +42,15 @@ public class CartController {
 		return cart;
 	}
 
+	@PutMapping(value = "/updatecart}")
+	public Cart updateCart(@RequestBody Cart cart) {
+		logger.info("|| Cart Controller entry : updateCart method : " + cart.toString());
+		Cart updatedCart = cartService.updateProducts(cart);
+		logger.info("|| Cart Controller end : updated cart");
+		return updatedCart;
+
+	}
+
 	@DeleteMapping(value = "/delete/{cartId}/products/{productId}")
 	public void deleteProductFromCart(@PathVariable Integer cartId, @PathVariable Integer productId) {
 		logger.info("|| Cart Controller entry : deleteProductFromCart method : " + productId);
@@ -55,14 +64,5 @@ public class CartController {
 		logger.info("|| Cart Controller entry : deleteAllProductsFromCart method : " + cartId);
 		cartService.removeAllProducts(cartId);
 		logger.info("|| Cart Controller entry : deleteAllProductsFromCart method : ");
-	}
-
-	@PutMapping(value = "/updatecart")
-	public Cart updateCart(@RequestBody Cart cart) {
-		logger.info("|| Cart Controller entry : updateCart method : " + cart.toString());
-		cartService.updateProducts(cart);
-		logger.info("|| Cart Controller entry : updateCart method : " + cart.toString());
-		return null;
-
 	}
 }

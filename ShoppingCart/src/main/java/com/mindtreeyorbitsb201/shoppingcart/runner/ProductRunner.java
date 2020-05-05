@@ -19,7 +19,7 @@ public class ProductRunner implements CommandLineRunner {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -29,7 +29,10 @@ public class ProductRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		
+		loadData();
+	}
+
+	public void loadData() {
 		List<Product> listOfProducts = new ArrayList<Product>();
 		listOfProducts.add(new Book(1, "c++", "book", 200f, "programming", "bala", "Mindtree"));
 		listOfProducts.add(new Book(2, "java", "book", 200f, "programming", "bala", "Born"));
@@ -41,11 +44,13 @@ public class ProductRunner implements CommandLineRunner {
 			productRepository.save(product);
 		}
 		List<User> listOfUser = new ArrayList<User>();
-		listOfUser.add(new User("Sakthi","9994381335","sakthi.dhandapani@gmail.com"));
-		listOfUser.add(new User("Vishwa","9788854343","vishwa.dhandapani@gmail.com"));
-		listOfUser.add(new User("Thuva","8899776655","thuva.dhandapani@gmail.com"));
-		for(User user : listOfUser) {
+		listOfUser.add(new User("Sakthi", "9994381335", "sakthi.dhandapani@gmail.com"));
+		listOfUser.add(new User("Vishwa", "9788854343", "vishwa.dhandapani@gmail.com"));
+		listOfUser.add(new User("Thuva", "8899776655", "thuva.dhandapani@gmail.com"));
+		for (User user : listOfUser) {
 			userRepository.save(user);
 		}
+
 	}
+
 }

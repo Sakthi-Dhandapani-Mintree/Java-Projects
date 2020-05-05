@@ -12,8 +12,8 @@ import com.mindtreeyorbitsb201.shoppingcart.entity.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	Product findByProductId(Integer productId);
-	Optional<Cart> findByProductIdAndCart(Integer productId,Cart cart);
-	List<Product> findByCart(Cart cartId);
+//	Optional<Cart> findByProductIdAndCart(Integer productId,Cart cart);
+//	List<Product> findByCart(Cart cartId);
 	List<Product> findByProductName(String productName);
 	List<Product> findByProductCategory(String productCategory);
 }
