@@ -127,7 +127,7 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public void removeProducts(Integer cartId, Integer productId) {
+	public Cart removeProducts(Integer cartId, Integer productId) {
 		boolean isProductDeleted = false;
 		logger.info("|| CartServiceImpl entry : removeProducts from the cartId " + productId);
 		Cart cart = cartRepository.findByCartId(cartId);
@@ -139,21 +139,37 @@ public class CartServiceImpl implements CartService {
 		for (int i = 0; i < listOfProducts.size(); i++) {
 			Product product = listOfProducts.get(i);
 			if (product.getProductId() == productId) {
-				cart.setCartId(cartId);
-				cart.setProduct(null);
-				cart.setQuantity(0);
-				cart.setTotalAmount(0.0f);
 				listOfProducts.remove(product);
 				isProductDeleted = true;
 				logger.error("|| CartServiceImpl  : productId : " + productId + " removed from cart ");
 			}
 		}
+		if (listOfProducts.size() > 0) {
+			for (int i = 0; i < listOfProducts.size(); i++) {
+				Product product = listOfProducts.get(i);
+				if (product != null) {
+					cart.setCartId(cartId);
+					cart.setProduct(listOfProducts);
+					cart.setQuantity(cart.getQuantity());
+					cart.setTotalAmount(cart.getQuantity() * product.getProductPrice());
+					logger.error("|| CartServiceImpl  : productId : " + productId + " removed from cart ");
+				}
+			}
+		}
+		if (listOfProducts.size() == 0) {
+			cart.setCartId(cartId);
+			cart.setProduct(listOfProducts);
+			cart.setQuantity(listOfProducts.size());
+			cart.setTotalAmount(0.0f);
+		}
+
 		if (!isProductDeleted) {
 			throw new ProductNotFoundException("Given product Id : " + productId
 					+ "is not associated with given cart Id " + cartId + " / or not found");
 		}
 
 		logger.info("|| CartServiceImpl end : removeProducts from the cartId ");
+		return cart;
 
 	}
 

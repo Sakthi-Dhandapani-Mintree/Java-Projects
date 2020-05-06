@@ -52,11 +52,11 @@ public class CartController {
 	}
 
 	@DeleteMapping(value = "/delete/{cartId}/products/{productId}")
-	public void deleteProductFromCart(@PathVariable Integer cartId, @PathVariable Integer productId) {
+	public ResponseEntity<Cart> deleteProductFromCart(@PathVariable Integer cartId, @PathVariable Integer productId) {
 		logger.info("|| Cart Controller entry : deleteProductFromCart method : " + productId);
-		cartService.removeProducts(cartId, productId);
+		Cart cart = cartService.removeProducts(cartId, productId);
 		logger.info("|| Cart Controller end : deleteProductFromCart method : ");
-
+		return new ResponseEntity<Cart>(cart, HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/deleteall/{cartId}")
