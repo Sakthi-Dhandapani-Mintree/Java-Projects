@@ -34,12 +34,20 @@ public class ProductRunner implements CommandLineRunner {
 
 	public void loadData() {
 		List<Product> listOfProducts = new ArrayList<Product>();
-		listOfProducts.add(new Book(1, "c++", "book", 200f, "programming", "bala", "Mindtree"));
-		listOfProducts.add(new Book(2, "java", "book", 200f, "programming", "bala", "Born"));
-		listOfProducts.add(new Book(3, "java", "book", 200f, "programming", "dexy", "fidility"));
-		listOfProducts.add(new Apparal(4, "otto", "apparal", 200f, "shirt", "phothis", "CTS"));
-		listOfProducts.add(new Apparal(5, "crocodile", "apparal", 200f, "chudi", "Saravana", "TCS"));
-		listOfProducts.add(new Apparal(6, "johnpeter", "apparal", 200f, "frog", "Chennai", "VTS"));
+		listOfProducts.add(new Book(1, "c++", "book", 210, "programming", "balakumar", "mindtree"));
+		listOfProducts.add(new Book(2, "java", "book", 190, "programming", "catherine", "cts"));
+		listOfProducts.add(new Book(3, "java", "book", 1547, "programming", "samuel", "o'reily"));
+		listOfProducts
+				.add(new Book(4, "the argumentative indian", "book", 360, "history", "Amartya Sen", "allen lane"));
+		listOfProducts.add(new Book(5, "the circle reason", "book", 429, "novel", "Amitav Ghosh", "viking press "));
+
+		listOfProducts.add(new Apparal(6, "shirt-1", "apparal", 1200, "shirt", "aramani", "line"));
+		listOfProducts.add(new Apparal(7, "formal-shirt", "apparal", 1300, "shirt", "crocodile", "dotted"));
+		listOfProducts.add(new Apparal(8, "casual-shirt", "apparal", 800, "shirt", "johnpeter", "checked"));
+
+		listOfProducts.add(new Apparal(9, "Line-kurta", "apparal", 2200, "kurta", "forever", "printed-line"));
+		listOfProducts.add(new Apparal(10, "ethnic-dress", "apparal", 600, "sari", "roadster", "check-with-dotted"));
+
 		for (Product product : listOfProducts) {
 			productRepository.save(product);
 		}

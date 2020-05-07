@@ -156,11 +156,13 @@ public class CartServiceImpl implements CartService {
 				}
 			}
 		}
-		if (listOfProducts.size() == 0) {
+		if (listOfProducts.size() == 0) {			
 			cart.setCartId(cartId);
 			cart.setProduct(listOfProducts);
 			cart.setQuantity(listOfProducts.size());
 			cart.setTotalAmount(0.0f);
+			products.clear();
+			logger.error("|| CartServiceImpl  : Products has been removed from Cart  ");
 		}
 
 		if (!isProductDeleted) {
